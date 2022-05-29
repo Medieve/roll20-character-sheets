@@ -3,26 +3,34 @@
 /* --------------------------------------------------- */
 
 .charsheet {
-	background-color: white;
-	background: dodgerblue;
-	width: 680px;
-	height: 900px;
+	background: white;
 }
 
-/* Roll20 Roll Button re-styling, Thanks to Scott C.*/
+body.sheet-darkmode .charsheet {
+	background: #1f1f1f;
+}
+
+/* Roll20 Roll Button re-styling, Thanks to Scott C. */
 
 button[type=roll] {
+	/* Override Roll20 default styling */
 	border: none;
-	line-height: 13px;
+	text-shadow: none;
+	line-height: 14px;
 	background-image: none;
 	box-shadow: none;
+	
+	/* Set global border radius of 'Roll' buttons here. */
+	border-radius: 3px;
+	
+	/* Set global font weight and size here. */
+	font-style: normal;
 	font-weight: bold;
 	font-size: 13px !important;
-	padding: 0px;
-	margin: 0px;
 }
 
 button[type=roll]::before{
+	/* Remove Roll20 d20 */
 	content: "" !important;
 }
 
@@ -66,7 +74,6 @@ button[type=roll]::before{
 
 textarea {
 	font-size: 14px;
-	//outline: none;
 	resize: none;
 }
 
@@ -79,14 +86,12 @@ input {
 }
 
 input[type=number]:focus {
-//select:focus	
 	outline: none;
 }
 
 input[type=text]:focus,
-textarea:focus,
-button:focus {
-	//outline: none;
+	textarea:focus,
+	button:focus {
 }
 
 input.customCheckbox {
@@ -119,7 +124,8 @@ select {
 	margin: 0;
 	width: 100%;
 	font-family: inherit;
-	font-size: inherit;
+	// font-size: inherit;
+	font-size: 12px;
 	cursor: inherit;
 	line-height: inherit;
 	z-index: 1;
@@ -128,33 +134,48 @@ select {
 }
 
 .custom-select,
-.custom-select-alternate {
+.custom-select-skill,
+.custom-select-alternate,
+.custom-select-alternate-skill {
 	display: grid;
 	grid-template-areas: "select";
 	align-items: center;
 	position: relative;
-	min-width: 40px;
+	min-width: 34px;
 	max-height: 20px;
 	border: 1px solid gray;
 	border-radius: 3px;
 	padding: 0px;
-	padding-left: 3px;
+	padding-bottom: 1px;
+	padding-left: 0px;
 	padding-right: 3px;
 	cursor: pointer;
-	
 	background-color: #fff;
 	background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
 }
 
+.custom-select-skill,
+.custom-select-alternate-skill {
+	margin-top: 2px;
+	margin-bottom: 1px;
+	max-height: 20px;
+}
+
 .custom-select select,
+.custom-select-skill select,
 .custom-select-alternate select,
+.custom-select-alternate-skill select,
 .custom-select::after,
-.custom-select-alternate::after {
+.custom-select-skill::after,
+.custom-select-alternate::after,
+.custom-select-alternate-skill::after {
 	grid-area: select;
 }
 
 .custom-select::after,
-.custom-select-alternate::after {
+.custom-select-skill::after,
+.custom-select-alternate::after,
+.custom-select-alternate-skill::after {
 	content: "";
 	justify-self: end;
 	width: 12px;
@@ -163,11 +184,13 @@ select {
 		  clip-path: polygon(100% 0%, 0 0%, 50% 100%);
 }
 
-.custom-select::after {
+.custom-select::after,
+.custom-select-skill::after {
 	background-color: olive;
 }
 
-.custom-select-alternate::after {
+.custom-select-alternate::after,
+.custom-select-alternate-skill::after {
 	background-color: salmon;
 }
 
@@ -182,10 +205,17 @@ select:focus + .focus {
 }
 
 .custom-select--disabled,
-.custom-select-alternate--disabled {
+.custom-select-skill--disabled,
+.custom-select-alternate--disabled,
+.custom-select-alternate-skill--disabled {
 	cursor: not-allowed;
 	background-color: #eee;
 	background-image: linear-gradient(to top, #ddd, #eee 33%);
+}
+
+.custom-select-skill,
+.custom-select-alternate-skill {
+	width: 64px;
 }
 
 /* --------------------------------------------------- */
@@ -195,24 +225,33 @@ select:focus + .focus {
 	display: flex;
 	justify-content: space-between;
 	height:36px;
-	margin-right: 0px;
+	padding: 0px;
 	widows: 100%;
-	margin-bottom: 6px;
-	min-width: 686px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	width: 680px;
+	background: dodgerblue;
+	border: 8px;
+	border-bottom: 0px;
+	border-radius: 4px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-color: dodgerblue;
+	border-style: solid;
 }
 
 /* Style the buttons inside the tab */
 .tab button {
   background-color: #CCCCFF;
   float: left;
-  border: none;
   outline: none;
   cursor: pointer;
   padding: 10px 10px;
-  margin-right: 6px;
+  margin-right: 0px;
   transition: 0.3s;
   font-size: 18px;
-  border-radius: 2px;
+  border: 0px;
 }
 
 /* Change background color of buttons on hover */
@@ -235,7 +274,11 @@ select:focus + .focus {
 .sheet-gear,
 .sheet-options {
 	display: none;
-	height: 808px; // Height of Sheet
+	width: 680px;
+	background: dodgerblue;
+	border: 8px;
+	border-color: dodgerblue;
+	border-style: solid;
 }
 
 /* show the selected tab */
@@ -257,6 +300,19 @@ select:focus + .focus {
 /* --------------------------------------------------- */
 /* Tally Bar styling                                   */
 /* --------------------------------------------------- */
+
+.sheet-tallybar {
+	width: 680px;
+	background: dodgerblue;
+	border: 8px;
+	border-top: 0px;
+	border-radius: 4px;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	border-color: dodgerblue;
+	border-style: solid;
+}
+
 .sheet-flex-tallybar {
 	display: flex;
 	flex-direction: row;
@@ -268,7 +324,7 @@ select:focus + .focus {
 	border: 3px solid #fff990;
 	border-radius: 5px;
 	background: royalblue;
-	margin-top: 6px;
+	margin: 0px;
 }
 
 .sheet-flex-tallybar span {
@@ -337,6 +393,27 @@ select:focus + .focus {
 	margin-bottom: 5px;
 }
 
+.grid-container-characteristics-leftGrid  h1 {
+	padding-left: 0px;
+	padding-top: 5px;
+	padding-bottom: 0px;
+	margin: 0px;
+	font-size: 13px;
+	font-style: normal;
+	line-height: 1.40;
+	min-width: 54px;
+}
+
+.grid-container-characteristics-leftGrid  h2 {
+	height: 20px;
+	line-height: 1.6;
+	margin-left: 5px;
+	margin-bottom: 0px;
+	margin-top: 2px;
+	font-size: 13px;
+	font-style: normal;
+}
+
 /* Item: logo graphic bio0 */
 
 .item-characteristics-logo {
@@ -374,17 +451,19 @@ select:focus + .focus {
 .item-characteristics-bio input[type=text] {
 	text-align:left;
 	width: 222px;
-	padding: 4px;
+	padding: 2px;
+	padding-left: 4px;
 	margin-left: 5px;
 	border: solid 1px goldenrod;
-	font-size: 13px;
+	font-size: 13;
 	font-weight: bold;
 }
 
 .item-characteristics-bio textarea {
-	width: 212px;
+	width: 214px;
 	max-height: 36px;
-	padding: 4px;
+	padding: 2px;
+	padding-left: 4px;
 	margin-left: 5px;
 	border: solid 1px black;
 	text-align: left;
@@ -397,10 +476,6 @@ select:focus + .focus {
 	background: gold;
 }
 
-.item-characteristics-bio-nameLabel label {
-	width: 40px;
-}
-
 /* Subitem: Character Name Text */
 .item-characteristics-bio-name {
 	grid-area: nameText;
@@ -410,10 +485,6 @@ select:focus + .focus {
 .item-characteristics-bio-titleLabel {
 	grid-area: titleLabel;
 	background: gold;
-}
-
-.item-characteristics-bio-titleLabel label {
-	width: 40px;
 }
 
 /* Subitem: Character Title Text */
@@ -440,7 +511,7 @@ select:focus + .focus {
 	display: grid;
 	grid-template-areas:
 	"experienceLabel experience moneyLabel money";
-	grid-template-columns: 90px 102px 50px 83px;
+	grid-template-columns: 90px 57px 95px 83px;
 	grid-template-rows: 23px;
 	margin-left: 6px;
 	margin-bottom: 6px;
@@ -457,11 +528,30 @@ select:focus + .focus {
 	vertical-align: top;
 }
 
+.item-characteristics-earnings h1 {
+	margin-bottom: 10px;
+	padding-left: 3px;
+	padding-top: 4px;
+	line-height: 1.3;
+}
+
 .item-characteristics-earnings input[type=number] {
 	text-align: right;
-	padding-right: 0px;
+	padding-right: 1px;
 	border: solid 1px palegoldenrod;
-	margin-bottom: 6px;
+	padding-top: 2px;
+	margin-bottom: 5px;
+}
+
+.item-characteristics-earnings input[type=text] {
+	font-size: 13px;
+	max-width: 90px;
+	text-align: right;
+	background-color: #fff990;
+	font-weight: bold;
+	margin-top: 0px;
+	margin-bottom: 1px;
+	color: black;
 }
 
 /* Subitem: Character Experience */
@@ -486,6 +576,7 @@ select:focus + .focus {
 
 .item-characteristics-earnings-money input[type=number] {
 	min-width: 70px;
+	margin-bottom: 5px;
 }
 
 /* Item: core abilities */
@@ -494,7 +585,7 @@ select:focus + .focus {
 	display: grid;
 	grid-template-areas:
 	"primaryAbilityNames primaryAbilityValues primaryAbilityChances primaryAbilityButtons primaryAbilityCosts";
-	grid-template-columns: 126px 49px 50px 40px 45px;
+	grid-template-columns: 126px 49px 50px 45px 45px;
 	min-width: 300px;
 	vertical-align: middle;
 	margin-left: 6px;
@@ -502,27 +593,28 @@ select:focus + .focus {
 	border-top: solid 1px goldenrod;
 	border-left: solid 1px goldenrod;
 	border-right: solid 1px goldenrod;
-	border-bottom: none;
+	border-bottom: 0px;
 	border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
+	padding-bottom: 2px;
 }
 
 .item-characteristics-primary-attributes h1 {
-	margin-left: 0px;
-	padding-left: 0px;
-	padding-top: 4px;
-	padding-bottom: 0px;
+	background: gold;
+	padding-left: 5px;
+	padding-right: 6px;
+	padding-top: 2px;
+	padding-bottom: 2px;
 	margin: 0px;
+	margin-top: 0px;
 	font-size: 13px;
 	font-style: normal;
-	line-height: 1.48;
-	min-width: 54px;
+	line-height: 1.35;
 }
 
-.item-characteristics-primary-attributes h1:nth-child(1){
-	background-color: gold;
+.item-characteristics-primary-attributes h2 {
+	margin-left: 8px;
 }
-
 
 .item-characteristics-primary-attributes input[type=number] {
 	text-align: right;
@@ -534,21 +626,6 @@ select:focus + .focus {
 	text-align: center;
 	border: none;	
 	max-width: 45px;
-}
-
-.item-characteristics-primary-attributes label {
-	height: 20px;
-	line-height: 1.6;
-	margin-left: 5px;
-	margin-bottom: 1px;
-	margin-top: 2px;
-}
-
-.item-characteristics-primary-attributes label:nth-child(1) {
-	background: gold;
-	margin-left: 0px;
-	padding-left: 1px;
-	padding-top: 3px;
 }
 
 /* Sub-Item: core abilities characteristics */
@@ -574,10 +651,6 @@ select:focus + .focus {
 	max-width: 55px;
 }
 
-.item-characteristics-primary-attributes h1 {
-	padding-left: 5px;
-}
-
 /* Sub-Item: core abilities values */
 .item-characteristics-primary-attributes-rollChances {
 	grid-area: primaryAbilityChances;
@@ -590,7 +663,7 @@ select:focus + .focus {
 }
 
 .item-characteristics-primary-attributes-rollChances h1 {
-	padding-left: 8px;
+	margin-left: 6px;
 }
 
 /* Sub-Item: core abilities values */
@@ -615,7 +688,9 @@ select:focus + .focus {
 }
 
 .item-characteristics-primary-attributes-costs h1 {
-	padding-left: 2px;
+	margin-left: 8px;
+	text-align: left;
+	min-width: 32px;
 }
 
 /* Item: combat abilities */
@@ -624,7 +699,7 @@ select:focus + .focus {
 	display: grid;
 	grid-template-areas:
 	"combatAbilityNames combatAbilityValues . . combatAbilityCosts";
-	grid-template-columns: 120px 50px 55px 40px 45px;
+	grid-template-columns: 126px 49px 50px 45px 45px;
 	min-width: 300px;
 	vertical-align: middle;
 	margin-left: 6px;
@@ -634,6 +709,7 @@ select:focus + .focus {
 	border-left: solid 1px goldenrod;
 	border-bottom: none;
 	border-top: none;
+	padding-bottom: 2px;
 }
 
 .item-characteristics-combat-attributes input[type=number] {
@@ -649,41 +725,30 @@ select:focus + .focus {
 	max-width: 45px;
 }
 
-.item-characteristics-combat-attributes label:nth-child(1) {
+.item-characteristics-combat-attributes h1 {
 	background: gold;
-	margin-left: 0px;
-	padding-left: 1px;
+	padding-left: 5px;
+	padding-right: 6px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	margin: 0px;
+	margin-top: 0px;
+	font-size: 13px;
+	font-style: normal;
+	line-height: 1.35;
 }
 
-.item-characteristics-combat-attributes label {
-	height: 20px;
-	line-height: 1.6;
-	margin: 0;
-	margin-left: 6px;
-}
-
-.item-characteristics-combat-attributes label:nth-child(1) {
-	background: gold;
+.item-characteristics-combat-attributes h2 {
+	margin-left: 8px;
 }
 
 /* Sub-Item: combat abilities characteristics */
 .item-characteristics-combat-attributes-names {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 	text-align: left;
 	grid-area: combatAbilityNames;
-}
-
-.item-characteristics-combat-attributes-names h1 {
-	background: gold;
-	margin-left: 0px;
-	padding-left: 2px;
-	padding-right: 50px;
-	padding-top: 2px;
-	padding-bottom: 1px;
-	margin: 0px;
-	margin-top: 1px;
-	font-size: 13px;
-	font-style: normal;
-	line-height: 1.35;
 	min-width: 120px;
 }
 
@@ -691,21 +756,10 @@ select:focus + .focus {
 .item-characteristics-combat-attributes-values {
 	text-align: center;
 	grid-area: combatAbilityValues;
-}
-
-.item-characteristics-combat-attributes-values h1 {
-	background: gold;
-	margin-left: 0px;
-	padding-left: 12px;
-	padding-right: 17px;
-	padding-top: 2px;
-	padding-bottom: 1px;
-	margin: 0px;
-	margin-top: 1px;
-	font-size: 13px;
-	font-style: normal;
-	line-height: 1.35;
-	min-width: 120px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	min-width: 152px;
 	text-align: left;
 }
 
@@ -713,21 +767,15 @@ select:focus + .focus {
 .item-characteristics-combat-attributes-costs {
 	grid-area: combatAbilityCosts;
 	text-align: right;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
 
 .item-characteristics-combat-attributes-costs h1 {
-	background: gold;
-	margin-left: 0px;
-	padding-left: 1px;
-	padding-right: 17px;
-	padding-top: 2px;
-	padding-bottom: 1px;
-	margin: 0px;
-	margin-top: 1px;
-	font-size: 13px;
-	font-style: normal;
-	line-height: 1.35;
-	min-width: 38px;
+	margin-left: 8px;
+	text-align: left;
+	min-width: 32px;
 }
 
 /* Item: combat abilities */
@@ -736,7 +784,7 @@ select:focus + .focus {
 	display: grid;
 	grid-template-areas:
 	"movementNames movementValues . . movementCosts";
-	grid-template-columns: 120px 50px 55px 40px 45px;
+	grid-template-columns: 126px 49px 50px 45px 45px;
 	background: purple;
 	min-width: 300px;
 	margin-left: 6px;
@@ -758,87 +806,60 @@ select:focus + .focus {
 
 .item-characteristics-movement-abilities input[readonly] {
 	text-align: center;
-	padding-right: 2px;
-	border: none;
+	padding-right: 0px;
+	border: none; 
 	max-width: 45px;
 }
 
-.item-characteristics-movement-abilities label:nth-child(1) {
+.item-characteristics-movement-abilities h1 {
 	background: gold;
-	margin-left: 0px;
-	padding-left: 1px;
+	padding-left: 5px;
+	padding-right: 6px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	margin: 0px;
+	margin-top: 0px;
+	font-size: 13px;
+	font-style: normal;
+	line-height: 1.35;
 }
 
-.item-characteristics-movement-abilities label {
-	height: 20px;
-	line-height: 1.6;
-	margin: 0;
-	margin-left: 6px;
-}
-
-.item-characteristics-movement-abilities  label:nth-child(1) {
-	background: gold;
+.item-characteristics-movement-abilities h2 {
+	margin-left: 8px;
 }
 
 /* Sub-Item: combat abilities characteristics */
 .item-characteristics-movement-abilities-names {
 	grid-area: movementNames;
-}
-
-.item-characteristics-movement-abilities-names h1 {
-	background: gold;
-	margin-left: 0px;
-	padding-left: 2px;
-	padding-right: 50px;
-	padding-top: 2px;
-	padding-bottom: 1px;
-	margin: 0px;
-	margin-top: 1px;
-	font-size: 13px;
-	font-style: normal;
-	line-height: 1.35;
-	min-width: 120px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
 
 /* Sub-Item: core abilities values */
 .item-characteristics-movement-abilities-values {
 	grid-area: movementValues;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
 
 .item-characteristics-movement-abilities-values h1 {
-	background: gold;
-	margin-left: 0px;
-	padding-left: 12px;
-	padding-right: 17px;
-	padding-top: 2px;
-	padding-bottom: 1px;
-	margin: 0px;
-	margin-top: 1px;
-	font-size: 13px;
-	font-style: normal;
-	line-height: 1.35;
-	min-width: 130px;
-	text-align: left;
+	min-width: 141px;
 }
 
 /* Sub-Item: core abilities costs */
 .item-characteristics-movement-abilities-costs {
 	grid-area: movementCosts;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
 
 .item-characteristics-movement-abilities-costs h1 {
-	background: gold;
-	margin-left: 0px;
-	padding-left: 20px;
-	padding-right: 5px;
-	padding-top: 2px;
-	padding-bottom: 1px;
-	margin: 0px;
-	margin-top: 1px;
-	font-size: 13px;
-	font-style: normal;
-	line-height: 1.35;
-	min-width: 31px;
+	margin-left: 8px;
+	text-align: left;
+	min-width: 32px;
 }
 
 /* characteristics tab right side */
@@ -848,7 +869,7 @@ select:focus + .focus {
 	display: grid;
 	grid-template-areas:
 	"portrait health"
-	"turnSegmentIndicators ."
+	"turnSegmentIndicators turnTracker"
 	"perception perception"
 	"history history";
 	grid-template-columns: 264px 68px;
@@ -1054,7 +1075,6 @@ select:focus + .focus {
 	max-height: 20px;
 	width: 20px;
 	align-items: center;
-	padding: 0px;
 	padding: 1px;
 }
 
@@ -1080,7 +1100,7 @@ select:focus + .focus {
 	padding-bottom: 1px;
 	display: inline-block;
 	font-size: 16px;
-	margin: -1px -1px;
+	margin: 0px 0px;
 	line-height: 1.4ch;
 	border-radius: 0px;
 }
@@ -1097,6 +1117,16 @@ select:focus + .focus {
 	background-color: gray;
 	color: white;
 	transition: 0.05s;
+}
+
+/* Item: Turn Tracker Button Space */
+
+.item-characteristics-turn-tracker {
+	grid-area: turnTracker;
+	width: 68px;
+	height: 22px;
+	padding: 0px;
+	line-height: 20px;
 }
 
 /* Item: character history */
@@ -1215,33 +1245,55 @@ select:focus + .focus {
 		". options ."
 		". . .";
 	grid-template-columns: 110px 500px 100px;
-	grid-template-rows: 100px 160px 100px;
+	grid-template-rows: 100px 185px 100px;
 	font-size: 16px;
 	background-color: royalblue;
 	border: 3px solid #fff990;
 	border-radius: 5px;
-	margin-bottom: 0px;
+	margin-bottom: 1px;
 	min-height: 800px;
 	min-width: 674px;
 }
 
-.grid-container-tab-options label {
+.grid-container-tab-options h1 {
 	font-size: 14px;
-	margin-left: 5px;
+	margin-left: 0px;
+	color: black;
+	padding-bottom: 5px;
+	font-weight: 500;
+}
+
+.grid-container-tab-options label {
+	max-width: 13px;
+	padding: 8px;
 }
 
 /* Sub-Item: options */
 .item-options {
 	grid-area: options;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
 	padding-left: 2px;
 	padding-top: 2px;
 	padding-bottom: 2px;
 	background-color: #fff990;
 	margin: 5px;
 	width: 450px;
+	max-height: 203px;
 	margin: 0px;
 	border: solid 2px goldenrod;
 	border-radius: 3px;
+}
+
+.item-options-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: baseline;
+	min-width: 400px;
+	max-height: 28px;
+	margin-left: 10px;
 }
 
 /* --------------------------------------------------- */
@@ -1249,21 +1301,13 @@ select:focus + .focus {
 /* --------------------------------------------------- */
 
 .button {
-	  border: none;
-	  color: white;
-	  text-decoration: none;
-	  display: inline-block;
-	  font-size: 14px;
-	  cursor: pointer;
-	  border-radius: 4px;
-	  transition-duration: 0.3s;
-	  font-weight: bold !important;
-	  text-align: center;
-	}
-	
-.button:hover{
-	color: black;
-	background-color: orange;
+	border: none;
+	color: white;
+	text-decoration: none;
+	display: inline-block;
+	cursor: pointer;
+	transition-duration: 0.2s;
+	text-align: center;
 }
 	
 .buttonRecover {
@@ -1278,14 +1322,9 @@ select:focus + .focus {
 	padding-right: 3.5px;
 	vertical-align: middle;
 	text-align: right;
-	font-weight: 500;
-}
-
-.buttonRecover:hover,
-.buttonReset:hover {
-	color: black;
-	background-color: lightgray;
-	text-align: right;
+	font-size: 13px;
+	font-weight: bold;
+	border-radius: 3px;
 }
 
 .buttonReset {
@@ -1300,46 +1339,88 @@ select:focus + .focus {
 	padding-right: 12px;
 	vertical-align: middle;
 	text-align: center;
+	font-size: 13px;
+	font-weight: bold;
+	border-radius: 3px;
+}
+
+.buttonTracker {
+	background-color: dodgerblue;
+	padding-left: 3px;
+	padding-right: 3px;
+	padding-top: 2px;
+	padding-bottom: 2px;
 	font-weight: bold;
 }
 
+.button-Power-END-right,
+.button-Power-END-left {
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-right: 2px;
+	padding-left: 2px;
+	min-height: 16px;
+	max-height: 16px;
+	text-align: middle;
+	font-weight: bold;
+	border-radius: 2.5px;
+}
+
+.button-Power-END-left {
+	background-color: olive;
+	margin-right: 0px;
+	min-width: 34px;
+	max-width: 35px;
+}
+
+.button-Power-END-right {
+	background-color: salmon;
+	margin-right: 0px;
+	min-width: 34px;
+	max-width: 35px;
+}
+
 .buttonRoll,
-.buttonRollDamage,
+.buttonRollAttack,
 .buttonRollActivate,
-.buttonRollNormalDamage,
+.buttonRollNormalAttack,
+.buttonRollShieldAttack,
 .buttonRollShow,
 .buttonRollPower {
-	min-height: 15px;
-	max-height: 15px;
 	padding-left: 3px;
 	padding-right: 3px;
 	text-align: center;
-	font-size: 13px;
-	font-weight: bold;
-	border-radius: 4px;
 	line-height: 13px;
 	padding-top: 2px;
 	padding-bottom: 2px;
+	font-weight: bold;
+	max-height: 16px;
+	min-height: 15px;
 }
 
 .buttonRoll,
-.buttonRollDamage,
+.buttonRollAttack,
 .buttonRollActivate,
-.buttonRollNormalDamage {
+.buttonRollNormalAttack,
+.buttonRollShieldAttack {
 	min-width: 25px;
 	max-width: 26px;
 }
 
-.buttonRollShow,
+
 .buttonRollPower {
-	min-width: 33px;
+	min-width: 32px;
 	max-width: 34px;
 }
 
+.button:hover,
+.buttonRecover:hover,
+.buttonReset:hover,
 .buttonRoll:hover,
-.buttonRollDamage:hover,
+.buttonRollAttack:hover,
 .buttonRollActivate:hover,
-.buttonRollNormalDamage:hover,
+.buttonRollNormalAttack:hover,
+.buttonRollShieldAttack:hover,
 .buttonRollShow:hover,
 .buttonRollPower:hover {
 	color: black;
@@ -1347,33 +1428,49 @@ select:focus + .focus {
 	text-align: center;
 }
 
+.button-Power-END-left:hover,
+.button-Power-END-right:hover {
+	background-color: #ff9900;
+	color: black;
+}
+
 .buttonRoll {
 	background-color: orange;
 }
 
-.buttonRollDamage {
+.buttonRollAttack {
 	background-color: indianred;
+	border-radius: 2.5px;
 }
 
 .buttonRollActivate {
 	background-color: steelblue;
 }
 
-.buttonRollNormalDamage {
+.buttonRollNormalAttack {
 	background-color: olivedrab;
+	border-radius: 2.5px;
+}
+
+.buttonRollShieldAttack  {
+	background-color: DarkGoldenrod;
+	border-radius: 2.5px;
 }
 
 .buttonRollShow {
 	background-color: lightslategray;
+	min-width: 36px;
+	max-width: 38px;
 }
 
 .buttonRollPower {
-	background-color: #9184E2; // lighter than mediumslateblue
+	background-color: #9184E2; /* lighter than mediumslateblue */
+	border-radius: 2.5px;
 }
 
 /* The d6 of dicefontd6 doesn't look good. Let's hold off for a better idea or stick with the label 'Roll' on the buttons.
 
-.buttonRollNormalDamage::before {
+.buttonRollNormalAttack::before {
 	font-family: 'dicefontd6';
 	font-size: 16px;
 	content: 'F';
@@ -1381,14 +1478,14 @@ select:focus + .focus {
 
 .portrait-display-button-left,
 .portrait-display-button-right {
-background-color: orange;
-padding-top: 4px;
-padding-bottom: 4px;
-margin: 4px 2px;
-padding-left: 14px;
-padding-right: 14px;
-vertical-align: middle;
-text-align: center;
+	background-color: orange;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	margin: 4px 2px;
+	padding-left: 14px;
+	padding-right: 14px;
+	vertical-align: middle;
+	text-align: center;
 }
 
 .portrait-display-button-left:hover,
@@ -1406,40 +1503,40 @@ text-align: center;
 
 /* Customize the label (the container) */
 .container-checkbox {
-  display: inline-block;
-  position: relative;
-  padding-left: 25px;
-  padding-top: 2px;
-  //margin-bottom: 10px;
-  cursor: pointer;
-  max-width: 400px;
-  font-size: 12px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  border: transparent;
+	display: inline-block;
+	position: relative;
+	padding-left: 25px;
+	padding-top: 2px;
+	//margin-bottom: 10px;
+	cursor: pointer;
+	max-width: 400px;
+	font-size: 12px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: transparent;
 }
 
 /* Hide the browser's default checkbox */
 .container-checkbox input,
 .container-checkbox-small input,
 .container-checkbox-small-gray input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
+	position: absolute;
+	opacity: 0;
+	cursor: pointer;
+	height: 0;
+	width: 0;
 }
 
 /* Create a custom checkbox */
 .checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 20px;
-  width: 20px;
-  background-color: gold;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 20px;
+	width: 20px;
+	background-color: gold;
 }
 
 /* On mouse-over, add a grey background color */
@@ -1937,7 +2034,7 @@ text-align: center;
 	background-color: dodgerblue;
 	justify-content: middle;
 	padding-bottom: 0px;
-	margin-bottom: 0px;
+	margin-bottom: 1px;
 }
 
 .grid-container-complications-talents h2 {
@@ -1967,7 +2064,7 @@ text-align: center;
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: space-between;
-	align-items: baseline;
+	align-items: center;
 	flex-direction: row;
 	margin-bottom: 0px;
 	padding: 0px;
@@ -1980,6 +2077,7 @@ text-align: center;
 	padding-left: 3px;
 	margin: 0px;
 	margin-right: 0px;
+	margin-left: 2px;
 	text-align: left;
 	font-size: 13px;
 	font-weight: bold;
@@ -2003,7 +2101,7 @@ text-align: center;
 }
 
 .item-talent-textbox textarea {
-	max-width: 315px;
+	max-width: 314px;
 	max-height: 36px;
 	padding: 3px;
 	border: solid 1px darkgray;
@@ -2031,7 +2129,7 @@ text-align: center;
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: space-between;
-	align-items: baseline;
+	align-items: center;
 	flex-direction: row;
 	margin-bottom: 0px;
 	padding: 0px;
@@ -2044,6 +2142,7 @@ text-align: center;
 	padding-left: 3px;
 	margin: 0px;
 	margin-right: 0px;
+	margin-left: 2px;
 	text-align: left;
 	font-size: 13px;
 	font-weight: bold;
@@ -2067,7 +2166,7 @@ text-align: center;
 }
 
 .item-complication-textbox textarea {
-	max-width: 315px;
+	max-width: 314px;
 	max-height: 54px;
 	padding: 3px;
 	border: solid 1px darkgray;
@@ -2117,7 +2216,7 @@ text-align: center;
 	background-color: dodgerblue;
 	justify-content: middle;
 	padding-bottom: 0px;
-	margin-bottom: 0px;
+	margin-bottom: 1px;
 }
 
 .grid-container-powers h1 {
@@ -2125,8 +2224,8 @@ text-align: center;
 	margin-left: 0px;
 	padding-left: 2px;
 	padding-right: 0px;
-	padding-top: 1px;
-	padding-bottom: 1px;
+	padding-top: 0px;
+	padding-bottom: 0px;
 	margin: 0px;
 	margin-top: 1px;
 	font-size: 13px;
@@ -2143,31 +2242,6 @@ text-align: center;
 	text-align: right;
 }
 
-.button-Power-END-right,
-.button-Power-END-left {
-	padding-top: 2px;
-	padding-bottom: 2px;
-	padding-right: 2px;
-	padding-left: 2px;
-	min-height: 16px;
-	max-height: 16px;
-	text-align: middle;
-}
-
-.button-Power-END-left {
-	background-color: olive;
-	margin-right: 0px;
-	min-width: 35px;
-	max-width: 35px;
-}
-
-.button-Power-END-right {
-	background-color: salmon;
-	margin-right: 0px;
-	min-width: 35px;
-	max-width: 35px;
-}
-
 .flex-container-powers-right,
 .flex-container-powers-left {
 	display: flex;
@@ -2175,19 +2249,22 @@ text-align: center;
 	flex-direction: column;
 	border-radius: 5px;
 	max-width: 333px;
-	padding: 5px;
-	margin-bottom: 2px;
-	height: 791px;
+	padding: 2px;
+	padding-left: 4px;
+	padding-right: 4px;
+	margin: 0px;
+	height: 797px;
 }
 
 .flex-container-powers-left textarea,
 .flex-container-powers-right textarea {
 	color: gray; 
-	max-width: 314px;
+	max-width: 316px;
 	height: 54px;
 	padding: 3px;
 	margin: 0px;
 	margin-top: 1px;
+	font-size: 8;
 }
 
 .flex-container-powers-right textarea {
@@ -2211,51 +2288,66 @@ text-align: center;
 	justify-content: space-between;
 	margin-top: 1px;
 	margin-bottom: 1px;
+	align-items: center;
 }
 
-.subitem-flex-power-effect-left,
-.subitem-flex-power-effect-right {
-	margin-right: -3px; /* Somewhere 3 pixels have been added */
-}
-
-.subitem-flex-power-heading-left input[type=text]:nth-child(1),
-.subitem-flex-power-heading-right input[type=text]:nth-child(1),
+.subitem-flex-power-heading-left input[type=text],
+.subitem-flex-power-heading-right input[type=text],
 .subitem-flex-power-effect-left input[type=text],
 .subitem-flex-power-effect-right input[type=text]{
-	max-width: 140px;
-	min-width: 140px;
-	max-height: 20px;
+	min-height: 22px;
 	text-align: left;
 	padding-left: 2px;
 	margin-right: 0px;
 }
 
-.subitem-flex-power-heading-left input[type=text],
-.subitem-flex-power-heading-right input[type=text] {
+.subitem-flex-power-heading-left input[type=text]:nth-child(2),
+.subitem-flex-power-heading-right input[type=text]:nth-child(2) {
 	font-weight: bold;
+	min-width: 134px;
+}
+
+.subitem-flex-power-heading-left input[type=text]:nth-child(4),
+.subitem-flex-power-heading-right input[type=text]:nth-child(4) {
+	font-weight: bold;
+	text-align: center;
+}
+
+.subitem-flex-power-effect-left input[type=text],
+.subitem-flex-power-effect-right input[type=text]{
+	min-width: 140px;
 }
 
 .subitem-flex-power-heading-left select,
 .subitem-flex-power-heading-right select {
 	font-size: 13px;
 	height: 19px;
-	max-width: 100px;
-	min-width: 95px;
+	width: 96px;
 	margin: 0px;
 }
 
-.subitem-flex-power-effect-left input[type=text],
-.subitem-flex-power-effect-right input[type=text]{
-	font-weight: normal;
+.subitem-flex-power-effect-left input[type=text]:nth-child(1),
+.subitem-flex-power-effect-right input[type=text]:nth-child(1){
+	min-width: 150px;
 }
 
 .subitem-flex-power-effect-left input[type=text]:nth-child(2), /* Dice */
 .subitem-flex-power-effect-right input[type=text]:nth-child(2) /* Dice */ {
-	max-width: 45px;
-	min-width: 45px;
+	min-width: 58px;
 	text-align: center;
-	margin-left: 0px;
-	margin-right: 4px;
+	margin-left: 2px;
+	margin-right: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.subitem-flex-power-effect-left input[type=number]:nth-child(4), /* Roll chance */
+.subitem-flex-power-effect-right input[type=number]:nth-child(4) /* Roll chance */ {
+	max-width: 41px;
+	min-width: 41px;
+	text-align: right;
+	margin-left: 1px;
+	margin-right: 2px;
 }
 
 .subitem-flex-power-activeCost input[type=number]:nth-child(2), /* Advantages */
@@ -2299,6 +2391,7 @@ text-align: center;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+	align-items: center;
 }
 
 .subitem-flex-power-active-cost-left input[type=number] {
@@ -2333,6 +2426,7 @@ text-align: center;
 	height: 19px;
 	max-width: 115px;
 	margin: 0px;
+	align-items: center;
 }
 
 
@@ -2371,6 +2465,7 @@ text-align: center;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+	align-items: center;
 }
 
 .subitem-flex-power-active-cost-right input[type=number] {
@@ -2391,6 +2486,7 @@ text-align: center;
 	max-width: 333px;
 	margin-top: 1px;
 	margin-bottom: 1px;
+	align-items: center;
 }
 
 .subitem-flex-power-limitations-right input[type=number]{
@@ -2406,6 +2502,74 @@ text-align: center;
 	margin: 0px;
 }
 
+// Buttons for power, talent, and complication movers.
+
+.power-mover-plus-minus-enclosure,
+.talent-mover-plus-minus-enclosure,
+.complication-mover-plus-minus-enclosure {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	
+}
+
+.power-mover-plus-minus-button,
+.talent-mover-plus-minus-button,
+.complication-mover-plus-minus-button {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 24px;
+	width: 10px;
+	align-items: center;
+	padding: 0px;
+	margin-right: 2px;
+	margin-left:3px;
+}
+
+.power-mover-plus-minus-button button.buttonPlus,
+.power-mover-plus-minus-button button.buttonMinus,
+.talent-mover-plus-minus-button button.buttonPlus,
+.talent-mover-plus-minus-button button.buttonMinus,
+.complication-mover-plus-minus-button button.buttonPlus,
+.complication-mover-plus-minus-button button.buttonMinus {
+	background-color: LemonChiffon;
+	border: solid 1px silver;
+	color: slategray;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	display: inline-block;
+	font-size: 10px;
+	margin: 0px 0px;
+	line-height: 1.25ch;
+	border-radius: 0px;
+	max-width: 10px;
+}
+
+.power-mover-plus-minus-button button.buttonPlus span,
+.power-mover-plus-minus-button button.buttonMinus span,
+.talent-mover-plus-minus-button button.buttonPlus span,
+.talent-mover-plus-minus-button button.buttonMinus span,
+.complication-mover-plus-minus-button button.buttonPlus span,
+.complication-mover-plus-minus-button button.buttonMinus span {
+	display: inline-block;
+	transform: rotate(-90deg);
+	text-align: center;
+}
+
+.power-mover-plus-minus-button button.buttonPlus:hover,
+.power-mover-plus-minus-button button.buttonMinus:hover,
+.talent-mover-plus-minus-button button.buttonPlus:hover,
+.talent-mover-plus-minus-button button.buttonMinus:hover,
+.complication-mover-plus-minus-button button.buttonPlus:hover,
+.complication-mover-plus-minus-button button.buttonMinus:hover {
+	background-color: gray;
+	color: white;
+	transition: 0.05s;
+} 
+
 
 /* ----------------------------------------------------- */
 /* Skills                                                */
@@ -2418,18 +2582,19 @@ text-align: center;
 	"theSkills2 theLanguageSkills"
 	"theSkills3 theEnhancers";
 	grid-gap: 6px;
-	grid-template-columns: 350px 330px;
-	grid-template-rows: 275px 245px 255px;
+	grid-template-columns: 358px 322px;
+	grid-template-rows: 273px 251px 259px;
 	max-width: 692px;
 	padding: 0px;
-	padding-left: 2px;
-	padding-top: 8px;
+	padding-left: 0px;
+	padding-top: 6px;
+	margin-bottom: 0px;
 	font-size: 16px;
 	background-color: gold;
 	border: 3px solid #fff990;
 	border-radius: 5px;
 	justify-content: middle;
-	min-height: 793px;
+	min-height: 795px;
 }
 
 .grid-container-skills-tab h1 {
@@ -2447,10 +2612,17 @@ text-align: center;
 	text-align: center;
 }
 
+.grid-container-skills-tab input[type=text] {
+	height: 22px;
+}
+
 .grid-container-skills-tab .custom-select,
-.grid-container-skills-tab .custom-select-alternate{
+.grid-container-skills-tab .custom-select-skill,
+.grid-container-skills-tab .custom-select-alternate,
+.grid-container-skills-tab .custom-select-alternate-skill{
 	font-size: 13px;
 	max-width: 110px;
+	margin-left: 3px;
 }
 
 /* Item: Skill Containers for Skill Groups 01, 02, and 03 */
@@ -2460,25 +2632,32 @@ text-align: center;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
-	max-width: 350px;
+	max-width: 358px;
 	margin-left: 5px;
 	background-color: #fff990; 
 	border: solid 2px goldenrod;
 	border-radius: 3px;
 	line-height: 1.10;
+	padding-left: 1px;
+	padding-right: 4px;
 }
 
 .item-skillsTab-flex-container-skills-group01 {
 	grid-area: theSkills1;
+	padding-bottom: 2px;
 }
 
 .item-skillsTab-flex-container-skills-group02 {
 	grid-area: theSkills2;
+	padding-top: 3px;
+	padding-bottom: 2px;
 }
 
 .item-skillsTab-flex-container-skills-group03 {
 	grid-area: theSkills3;
-	margin-bottom: 5px;
+	padding-top: 3px;
+	padding-bottom: 2px;
+	margin-bottom: 4px;
 }
 
 .item-skillsTab-flex-container-skills-group01 input[type=number],
@@ -2486,9 +2665,10 @@ text-align: center;
 .item-skillsTab-flex-container-skills-group03 input[type=number] {
 	text-align: right;
 	padding-right: 0px;
-	margin-top: 1px;
-	margin-bottom: 1px;
+	margin-top: 0px;
+	margin-bottom: 0px;
 	border: solid 1px palegoldenrod;
+	max-height: 22px;
 }
 
 .item-skillsTab-flex-container-skills-group01 input[readonly],
@@ -2497,26 +2677,28 @@ text-align: center;
 	text-align: center;
 	background-color: #fff990; 
 	border: transparent;
-	max-width: 40px;
+	max-width: 24px;
 }
 
 .item-skillsTab-flex-container-skills-group01 input[type=text]:nth-child(1),
 .item-skillsTab-flex-container-skills-group02 input[type=text]:nth-child(1),
 .item-skillsTab-flex-container-skills-group03 input[type=text]:nth-child(1) {
-	max-width: 125px;
+	max-width: 140px;
 	margin-top: 1px;
 	margin-bottom: 1px;
 	font-size: 13px;
 	text-align: left;
 	margin-left: 4px;
-	margin-right: 2px;
+	margin-right: 1px;
+	padding-left: 1px;
+	padding-right: 1px;
 	border: solid 1px palegoldenrod;
 }
 
 /* Sub-Item: Flex containers for rows */
 .subitem-skillsTab-grid-container-skills-heading-left {
 	grid-template-areas: "skillName skillType rollChance . skillCost";
-	grid-template-columns: 155px 67px 37px 35px 33px;
+	grid-template-columns: 164px 70px 26px 38px 46px;
 	display: grid;
 }
 
@@ -2531,23 +2713,81 @@ text-align: center;
 
 .subitem-skillsTab-grid-container-skills-heading-left-type {
 	grid-area: skillType;
+	text-align: center;
 }
 
 .subitem-skillsTab-grid-container-skills-heading-left-roll {
 	grid-area: rollChance;
+	text-align: center;
 }
 
 .subitem-skillsTab-grid-container-skills-heading-left-cost {
 	grid-area: skillCost;
-	text-align: right;
+	text-align: center;
 }
 
 .subitem-skillsTab-flex-container-skill {
 	text-align: left;
 	display: flex;
 	flex-direction: row;
-	justify-content: space-evenly;
+	justify-content: space-between;
+	max-height: 24px;
 }
+
+.subitem-skillsTab-flex-container {
+	text-align: right;
+}
+
+// Buttons for skill movers.
+
+.skill-mover-plus-minus-enclosure {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.skill-mover-plus-minus-button {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 24px;
+	width: 10px;
+	align-items: center;
+	padding: 0px;
+	margin-right: 2px;
+	margin-left: 2px;
+}
+
+.skill-mover-plus-minus-button button.buttonPlus,
+.skill-mover-plus-minus-button button.buttonMinus {
+	background-color: LemonChiffon;
+	border: solid 1px silver;
+	color: slategray;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	display: inline-block;
+	font-size: 10px;
+	margin: 0px 0px;
+	line-height: 1.25ch;
+	border-radius: 0px;
+	max-width: 10px;
+}
+
+.skill-mover-plus-minus-button button.buttonPlus span,
+.skill-mover-plus-minus-button button.buttonMinus span {
+	display: inline-block;
+	transform: rotate(-90deg);
+	text-align: center;
+}
+
+.skill-mover-plus-minus-button button.buttonPlus:hover,
+.skill-mover-plus-minus-button button.buttonMinus:hover {
+	background-color: gray;
+	color: white;
+	transition: 0.05s;
+} 
 
 /* Item: Skill Container for combat skill flex "columns" */
 .item-skillsTab-grid-container-combat-skills {
@@ -2556,12 +2796,13 @@ text-align: center;
 	grid-template-areas: 
 	"skillNames skillLevels skillTypes skillCosts"
 	"skillLevelNames skillLevels . skillCosts";
-	grid-template-columns: 150px 50px 59px 40px;
+	grid-template-columns: 150px 50px 61px 38px;
 	grid-template-rows: 199px 76px;
-	max-width: 297px;
+	max-width: 292px;
 	padding-left: 4px;
 	padding-right: 4px;
 	padding-bottom: 3px;
+	padding-top: 0px;
 	background-color: #fff990; 
 	border: solid 2px goldenrod;
 	border-radius: 3px;
@@ -2575,17 +2816,18 @@ text-align: center;
 	flex-direction: column;
 	justify-content: space-between;
 	margin-bottom: 3px;
-	padding-top: 3px;
+	padding-top: 0px;
 }
 
 .subitem-skillsTab-flex-container-combat-skills-names input[type=text] {
 	max-width: 140px;
 	margin-top: 0px;
 	margin-bottom: 3px;
-	min-height: 20px;
 	font-size: 13px;
 	text-align: left;
 	margin-left: 4px;
+	padding-left: 1px;
+	padding-right: 1px;
 	border: solid 1px palegoldenrod;
 }
 
@@ -2620,17 +2862,20 @@ text-align: center;
 	flex-direction: column;
 	justify-content: space-between;
 	margin-top: 7px;
-	margin-bottom: 3px;
-	max-height: 260px;
+	margin-bottom: 6px;
+	max-height: 264px;
+	margin-top: 3px;
+	padding-bottom: 2px;
 }
 
 .subitem-skillsTab-flex-container-combat-skills-levels input[type=number] {
 	text-align: center;
 	padding-left: 3px;
+	padding-right: 1px; /* Fix for shifting spinners on focus */
 	max-width: 45px;
 	margin-right: 5px;
 	padding-bottom: 1px;
-	min-height: 20px;
+	max-height: height: 22px;
 	border: solid 1px palegoldenrod;
 }
 
@@ -2648,9 +2893,10 @@ text-align: center;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	margin-top: 6px;
+	margin-top: 3px;
 	margin-bottom: 5px;
 	margin-left: 0px;
+	height: 189px;
 }
 
 .subitem-skillsTab-flex-container-combat-skills-types h1 {
@@ -2664,6 +2910,7 @@ text-align: center;
 .subitem-skillsTab-flex-container-combat-skills-types .custom-select {
 	max-width: 55px;
 	text-align: center;
+	height: 19px;
 }
 
 /* Subitem: flex container for combat skill costs "column" */
@@ -2672,15 +2919,16 @@ text-align: center;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	margin-bottom: 9px;
-	margin-top: 6px;
+	margin-bottom: 7px;
+	margin-top: 3px;
+	padding-bottom: 2px;
 }
 
 .subitem-skillsTab-flex-container-combat-skills-costs h1 {
 	text-align: center;
 	padding-top: 0px;
 	padding-bottom: 0px;
-	padding-right: 2px;
+	padding-right: 0px;
 	max-height: 18px;
 	max-width: 40px;
 }
@@ -2697,34 +2945,33 @@ text-align: center;
 	grid-area: theLanguageSkills;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-evenly;
-	max-width: 305px;
+	justify-content: space-between;
+	max-width: 292px;
 	background-color: #fff990; 
 	border: solid 2px goldenrod;
 	border-radius: 3px;
 	line-height: 1.10;
-	padding: 0px;
-	padding-bottom: 2px;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-bottom: 3px;
 }
 
 /* Sub-Item: Flex containers for columns */
 .subitem-skillsTab-flex-container-languages-heading {
 	grid-template-areas: "skillName skillFluency literacy skillCost";
-	grid-template-columns: 145px 55px 65px 40px;
+	grid-template-columns: 148px 83px 31px 36px;
 	display: grid;
-	margin-left: 6px;
+	margin-left: 0px;
 }
 
 .subitem-skillsTab-flex-container-languages-heading-name {
 	grid-area: skillName;
-}
-
-.subitem-skillsTab-flex-container-languages-heading-name h1 {
-	text-align: center;
+	text-align: left;
 }
 
 .subitem-skillsTab-flex-container-languages-heading-fluency {
 	grid-area: skillFluency;
+	text-align: center;
 }
 
 .subitem-skillsTab-flex-container-languages-heading-literacy {
@@ -2734,40 +2981,45 @@ text-align: center;
 
 .subitem-skillsTab-flex-container-languages-heading-cost {
 	grid-area: skillCost;
+	text-align: center;
 }
 
 .subitem-skillsTab-flex-container-language {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-evenly;
-	max-width: 290px;
-	margin-left: 6px;
+	justify-content: space-between;
+	max-width: 285px;
+	margin-left: 0px;
 	padding: 0px;
+	margin-left: 4px;
 }
 
-.subitem-skillsTab-flex-container-language input[type=text] {
+.subitem-skillsTab-flex-container-language input[type=text]:nth-child(1) {
 	text-align: left;
-	padding-left: 3px;
-	max-width: 130px;
-	margin-right: 8px;
+	padding-left: 2px;
+	min-width: 140px;
+	margin-right: 0px;
 	border: solid 1px palegoldenrod;	
 }
 
 .subitem-skillsTab-flex-container-language input[readonly] {
 	text-align: center;
 	background-color: #fff990;
-	max-width: 30px;
+	max-width: 22px;
 	margin-right: 0px;
+	margin-left: 3px;
 	border: transparent;
 }
 
 .subitem-skillsTab-flex-container-language .container-checkbox-small {
 	margin-top: 3px;
+	margin-left: 10px;
 }
 
 .subitem-skillsTab-flex-container-language .custom-select {
 	min-width: 70px;
-	margin-right: 10px;
+	margin-left: 8px;
+	max-height: 19px;
 }
 
 
@@ -2779,23 +3031,22 @@ text-align: center;
 	". skillEnhancersHeading skillEnhancersHeading skillEnhancersHeading"
 	"checkboxes skillNames . skillCosts"
 	". skillNames skillLevels skillCosts";
-	grid-template-columns: 25px 165px 68px 40px;
-	grid-template-rows: 20px 110px 110px;
-	max-width: 300px;
+	grid-template-columns: 25px 175px 65px 38px;
+	grid-template-rows: 20px 112px 112px;
+	max-width: 295px;
 	padding-left: 5px;
 	grid-gap:0px;
 	background-color: #fff990; 
 	border: solid 2px goldenrod;
 	border-radius: 3px;
-	max-height: 247px;
-
+	max-height: 251px;
 }
 
 .item-skillsTab-grid-container-skill-enhancers input[readonly]{
 	background-color: #fff990;
 	text-align: center;
 	height: 18px;
-	max-width: 40px;
+	max-width: 30px;
 }
 
 .subitem-skillsTab-flex-container-skill-enhancers-checkboxes {
@@ -2806,8 +3057,8 @@ text-align: center;
 	justify-content: space-between;
 	line-height: 1.2;
 	padding-bottom: 5px;
-	padding-top: 4px;
-	height: 110px;
+	padding-top: 5px;
+	height: 113px;
 }
 
 .subitem-skillsTab-flex-container-skill-enhancers-heading {
@@ -2818,11 +3069,11 @@ text-align: center;
 	padding-top: 4px;
 	justify-content: space-between;
 	line-height: 1.15;
-	width: 277px;
+	width: 264px;
 }
 
 .subitem-skillsTab-flex-container-skill-enhancers-heading h1:nth-child(2) {
-	padding-right: 15px;
+	padding-right: 0px;
 	line-height: 1.15;
 }
 
@@ -2831,7 +3082,7 @@ text-align: center;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
-	height: 225px;
+	height: 229px;
 }
 
 .subitem-skillsTab-flex-container-skill-enhancers-names h1 {
@@ -2847,14 +3098,14 @@ text-align: center;
 	flex-direction: column;
 	justify-content: flex-end;
 	line-height: 1.15;
-	margin-top: 10px;
-	height: 104px;
+	margin-top: 11px;
+	height: 107px;
 	margin-bottom: 4px;
 }
 
 .subitem-skillsTab-flex-container-skill-enhancers-levels input[type=number]{
 	border: solid 1px palegoldenrod;
-	height: 18px;
+	height: 19px;
 	margin-bottom: 2px;
 }
 
@@ -2865,7 +3116,7 @@ text-align: center;
 	flex-direction: column;
 	justify-content: space-evenly;
 	line-height: 1.15;
-	height: 224px;
+	height: 229px;
 }
 
 /* ----------------------------------------------------- */
@@ -2912,6 +3163,7 @@ text-align: center;
 .grid-container-tab-gear .custom-select {
 	font-size: 13px;
 	max-width: 110px;
+	max-height: 19px;
 }
 
 /* Health status styling grouped with item-health-characteristics */
@@ -2926,7 +3178,7 @@ text-align: center;
 	margin-top: 6px;
 	padding: 0px;
 	max-width: 594px;
-	max-height: 55px;
+	max-height: 56px;
 	padding-left: 20px;
 	padding-right: 20px;
 	text-align: left;
@@ -2941,24 +3193,16 @@ text-align: center;
 	font-size: 13px;
 }
 
-.item-tab-gear-flex-container-encumbrance input[readonly]{
-	background-color: #fff990;
-	text-align: center;
-	max-width: 70px;
-	background-color: gold;
-	border: solid 1px goldenrod;
-	font-size: 15px;
-	margin-left: 2px;
-}
-
 .item-tab-gear-flex-container-encumbrance input[type=number]{
 	background-color: #fff990;
 	text-align: center;
 	max-width: 70px;
 	background-color: gold;
 	border: solid 1px goldenrod;
-	font-size: 15px;
-	margin-left: 2px;
+	font-size: 16px;
+	margin-left: 0px;
+	padding-right: 0px;
+	min-height: 22px;
 }
 
 .subitem-tab-gear-flex-container-encumbrance,
@@ -2974,6 +3218,71 @@ text-align: center;
 	margin-left: 0px;
 }
 
+.subitem-tab-gear-plus-minus-enclosure {
+	display: flex;
+	flex-direction: row;
+	background-color: gold;
+	justify-content: space-between;
+	width: 50px;
+	max-height: 20px;
+	border: solid 1px goldenrod;
+	border-radius: 3px;
+}
+
+.subitem-tab-gear-plus-minus-enclosure input[type=text] {
+	max-width: 40px;
+	height: 20px;
+	font-size: 16px;
+	background-color: transparent;
+	text-align: center;
+	vertical-align: center;
+}
+
+.subitem-tab-gear-plus-minus-enclosure input[type=text]:focus{
+	outline: transparent;
+}
+
+.subitem-tab-gear-flex-container-stat {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 20px;
+	width: 10px;
+	align-items: center;
+	padding: 0px;
+}
+
+.subitem-tab-gear-flex-container-stat button.buttonPlus,
+.subitem-tab-gear-flex-container-stat button.buttonMinus {
+	background-color: LemonChiffon;
+	border: solid 1px slategray;
+	color: slategray;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	display: inline-block;
+	font-size: 10px;
+	margin: 0px 0px;
+	line-height: 1.4ch;
+	border-radius: 0px;
+	max-width: 10px;
+}
+
+.subitem-tab-gear-flex-container-stat button.buttonPlus span,
+.subitem-tab-gear-flex-container-stat button.buttonMinus span {
+	display: inline-block;
+	transform: rotate(-90deg);
+	text-align: center;
+}
+
+.subitem-tab-gear-flex-container-stat button.buttonPlus:hover,
+.subitem-tab-gear-flex-container-stat button.buttonMinus:hover {
+	background-color: gray;
+	color: white;
+	transition: 0.05s;
+} 
+
 /* ------------- */
 /* Item: Armor   */
 /* ------------- */
@@ -2985,7 +3294,7 @@ text-align: center;
 	max-width: 594px;
 	padding-left: 5px;
 	margin-left: 3px;
-	padding-top: 4px;
+	padding-top: 0px;
 	grid-gap: 3px;
 	background-color: #fff990; 
 	border: solid 2px goldenrod;
@@ -2997,13 +3306,10 @@ text-align: center;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+	align-items: center;
 	max-width: 576px;
-	margin-bottom: 3px;
-}
-
-.subitem-tab-gear-flex-container-armor-row h1 {
-	min-width: 42px;
-	text-align: center;
+	margin-bottom: 1px;
+	height: 24px;
 }
 
 .subitem-tab-gear-flex-container-armor-row h1:nth-child(1) {
@@ -3011,29 +3317,40 @@ text-align: center;
 	text-align: left;
 }
 
+.subitem-tab-gear-flex-container-armor-row h1:nth-child(2),
+.subitem-tab-gear-flex-container-armor-row h1:nth-child(3),
 .subitem-tab-gear-flex-container-armor-row h1:nth-child(4),
 .subitem-tab-gear-flex-container-armor-row h1:nth-child(5) {
+	min-width: 34px;
+	text-align: center;
+}
+
+.subitem-tab-gear-flex-container-armor-row h1:nth-child(6),
+.subitem-tab-gear-flex-container-armor-row h1:nth-child(7) {
+	min-width: 44px;
+}
+
+.subitem-tab-gear-flex-container-armor-row h1:nth-child(8) {
+	min-width: 36px;
+}
+
+.subitem-tab-gear-flex-container-armor-row h1:nth-child(9) {
+	min-width: 98px;
+}
+
+.subitem-tab-gear-flex-container-armor-row h1:nth-child(10) {
 	min-width: 46px;
 }
 
-.subitem-tab-gear-flex-container-armor-row h1:nth-child(6) {
-	min-width: 30px;
-	max-width: 30px;
-}
-
-.subitem-tab-gear-flex-container-armor-row h1:nth-child(7) {
-	min-width: 117px;
-}
-
 .subitem-tab-gear-flex-container-armor-row input {
-	max-height: 21px;
+	max-height: 22px;
 }
 
 .subitem-tab-gear-flex-container-armor-row input[type=number] {
 	text-align: right;
 	padding-left: 2px;
-	max-width: 60px;
-	min-width: 48px;
+	max-width: 36px;
+	min-width: 34px;
 	padding-right: 0px;
 	margin-right: 0px;
 	margin-left: 0px;
@@ -3041,24 +3358,29 @@ text-align: center;
 }
 
 .subitem-tab-gear-flex-container-armor-row input[type=text]:nth-child(1),
-.subitem-tab-gear-flex-container-armor-row input[type=text]:nth-child(7) {
+.subitem-tab-gear-flex-container-armor-row input[type=text]:nth-child(9) {
 	padding-left: 1px;
 	padding-right: 1px;
-	max-width: 120px;
 	margin-right: 0px;
 	border: solid 1px palegoldenrod;
 }
 
 .subitem-tab-gear-flex-container-armor-row input[type=text]:nth-child(1) {
 	text-align: left;
+	max-width: 120px;
 }
 
-.subitem-tab-gear-flex-container-armor-row input[type=text]:nth-child(7) {
+.subitem-tab-gear-flex-container-armor-row input[type=text]:nth-child(9) {
 	text-align: center;
+	max-width: 100px;
+}
+
+.subitem-tab-gear-flex-container-armor-row input[type=number]:nth-child(10) {
+	text-align: right;
+	min-width: 48px;
 }
 
 .subitem-tab-gear-flex-container-armor-row select {
-	padding-left: 4px;
 	text-align-last: center; // For Chrome
 	text-align: center; // Firefox
 }
@@ -3074,24 +3396,68 @@ text-align: center;
 }
 
 .subitem-tab-gear-flex-container-shield-row h1 {
-	min-width: 42px;
-	text-align: center;
 	margin-bottom: 3px;
+	padding: 0px;
+}
+
+.subitem-tab-gear-flex-container-shield-row input {
+	max-height: 21px;
+}
+
+.subitem-tab-gear-flex-container-shield-row label {
+	max-width: 5px;
+	margin-left: 2px;
+	margin-top: 3px;
+	padding-right: 0px;
+}
+
+.subitem-tab-gear-flex-container-shield-row .container-checkbox-small {
+	padding-left: 10px;
+	margin-right: 3px;
 }
 
 .subitem-tab-gear-flex-container-shield-row h1:nth-child(1) {
-	min-width: 118px;
+	min-width: 120px;
 	text-align: left;
 }
 
 .subitem-tab-gear-flex-container-shield-row h1:nth-child(3) {
-	min-width: 70px;
+	min-width: 67px;
 	text-align: center;
 }
 
 .subitem-tab-gear-flex-container-shield-row h1:nth-child(4) {
-	min-width: 34px;
-	max-width: 34px;
+	min-width: 24px;
+	text-align: center;
+}
+
+.subitem-tab-gear-flex-container-shield-row h1:nth-child(6) {
+	min-width: 38px;
+	text-align: center;
+}
+
+.subitem-tab-gear-flex-container-shield-row h1:nth-child(7) {
+	min-width: 48px;
+	text-align: center;
+}
+
+.subitem-tab-gear-flex-container-shield-row h1:nth-child(5),
+.subitem-tab-gear-flex-container-shield-row h1:nth-child(8),
+.subitem-tab-gear-flex-container-shield-row h1:nth-child(9) {
+	min-width: 32px;
+	text-align: center;
+}
+
+.subitem-tab-gear-flex-container-shield-row h1:nth-child(2),
+.subitem-tab-gear-flex-container-shield-row h1:nth-child(10),
+.subitem-tab-gear-flex-container-shield-row h1:nth-child(11) {
+	min-width: 40px;
+	text-align: center;
+}
+
+.subitem-tab-gear-flex-container-shield-row h1:nth-child(12) {
+	min-width: 42px;
+	text-align: center;
 }
 
 .subitem-tab-gear-flex-container-shield-row input[type=text]:nth-child(1),
@@ -3112,11 +3478,32 @@ text-align: center;
 	text-align: center;
 }
 
+.subitem-tab-gear-flex-container-shield-row  input[readonly]:nth-child(9){
+	background-color: inherit;
+	text-align: center;
+	padding-left: 0px;
+	max-width: 24px;
+	padding-right: 0px;
+	margin-right: 0px;
+	margin-left: 0px;
+	margin-top: 3px;
+	margin-bottom: 2px;
+}
+
 .subitem-tab-gear-flex-container-shield-row input[type=number] {
 	text-align: right;
 	padding-left: 3px;
-	max-width: 60px;
-	min-width: 48px;
+	max-width: 38px;
+	padding-right: 0px;
+	margin-right: 0px;
+	margin-left: 0px;
+	border: solid 1px palegoldenrod;
+}
+
+.subitem-tab-gear-flex-container-shield-row input[type=number]:nth-child(12) {
+	text-align: right;
+	padding-left: 3px;
+	min-width: 42px;
 	padding-right: 0px;
 	margin-right: 0px;
 	margin-left: 0px;
@@ -3167,58 +3554,74 @@ text-align: center;
 
 .subitem-tab-gear-flex-container-weapon-row label {
 	max-width: 5px;
-	margin-left: 10px;
+	margin-left: 2px;
 	margin-top: 3px;
 	padding-right: 0px;
 }
 
 .subitem-tab-gear-flex-container-weapon-row h1:nth-child(1) {
-	min-width: 115px;
+	min-width: 120px;
 	text-align: left;
 }
 
 .subitem-tab-gear-flex-container-weapon-row h1:nth-child(2) {
-	min-width: 71px;
+	min-width: 65px;
 	text-align: center;
 }
 
 .subitem-tab-gear-flex-container-weapon-row h1:nth-child(3) {
-	min-width: 30px;
+	min-width: 26px;
+	text-align: center;
+}
+
+.subitem-tab-gear-flex-container-weapon-row h1:nth-child(4) {
+	min-width: 32px;
 	text-align: left;
 }
+
+.subitem-tab-gear-flex-container-weapon-row h1:nth-child(5) {
+	min-width: 36px;
+	text-align: center;
+}
+
 .subitem-tab-gear-flex-container-weapon-row h1:nth-child(6) {
-	min-width: 45px;
+	min-width: 40x;
 	text-align: center;
 }
 
 .subitem-tab-gear-flex-container-weapon-row h1:nth-child(7) {
-	min-width: 38px;
+	min-width: 44px;
 	text-align: center;
 }
 
 .subitem-tab-gear-flex-container-weapon-row h1:nth-child(8) {
-	min-width: 34px;
-	text-align: right;
+	min-width: 42px;
+	text-align: center;
 }
 
 .subitem-tab-gear-flex-container-weapon-row h1:nth-child(9) {
-	min-width: 36px;
+	min-width: 32px;
 	text-align: right;
 }
 
 .subitem-tab-gear-flex-container-weapon-row h1:nth-child(10) {
-	min-width: 42px;
+	min-width: 34px;
 	text-align: right;
-	padding-left: 5px;
 }
 
 .subitem-tab-gear-flex-container-weapon-row h1:nth-child(11) {
-	max-width: 20px;
+	min-width: 45px;
+	text-align: center;
+	padding-left: 0px;
+}
+
+.subitem-tab-gear-flex-container-weapon-row h1:nth-child(12) {
+	min-width: 32px;
 	text-align: center;
 	padding: 0px;
 }
 
-.subitem-tab-gear-flex-container-weapon-row h1:nth-child(12) {
+.subitem-tab-gear-flex-container-weapon-row h1:nth-child(13) {
 	min-width: 32px;
 	text-align: right;
 	margin-right: 6px;
@@ -3242,32 +3645,46 @@ text-align: center;
 	border: solid 1px palegoldenrod;
 }
 
-.subitem-tab-gear-flex-container-weapon-row button:nth-child(3) {
-	margin-left: 3px;
+.subitem-tab-gear-flex-container-weapon-row .container-checkbox-small {
+	padding-left: 10px;
 	margin-right: 3px;
 }
 
-.subitem-tab-gear-flex-container-weapon-row input[type=number]:nth-child(4),
+.subitem-tab-gear-flex-container-weapon-row button:nth-child(4) {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
 .subitem-tab-gear-flex-container-weapon-row input[type=number]:nth-child(5),
 .subitem-tab-gear-flex-container-weapon-row input[type=number]:nth-child(6),
 .subitem-tab-gear-flex-container-weapon-row input[type=number]:nth-child(7),
-.subitem-tab-gear-flex-container-weapon-row input[type=number]:nth-child(8),
-.subitem-tab-gear-flex-container-weapon-row input[type=number]:nth-child(10),
-.subitem-tab-gear-flex-container-weapon-row input[type=number]:nth-child(12) {
+.subitem-tab-gear-flex-container-weapon-row input[type=number]:nth-child(9) {
 	text-align: right;
 	padding-left: 3px;
-	min-width: 42px;
+	max-width: 38px;
 	padding-right: 0px;
 	margin-right: 0px;
 	margin-left: 0px;
 	border: solid 1px palegoldenrod;
 }
 
-.subitem-tab-gear-flex-container-weapon-row input[readonly]:nth-child(9){
+.subitem-tab-gear-flex-container-weapon-row input[type=number]:nth-child(8),
+.subitem-tab-gear-flex-container-weapon-row input[type=number]:nth-child(11),
+.subitem-tab-gear-flex-container-weapon-row input[type=number]:nth-child(13) {
+	text-align: right;
+	padding-left: 3px;
+	max-width: 46px;
+	padding-right: 0px;
+	margin-right: 0px;
+	margin-left: 0px;
+	border: solid 1px palegoldenrod;
+}
+
+.subitem-tab-gear-flex-container-weapon-row input[readonly]:nth-child(10){
 	background-color: inherit;
 	text-align: center;
 	padding-left: 0px;
-	width: 40px;
+	max-width: 24px;
 	padding-right: 0px;
 	margin-right: 0px;
 	margin-left: 0px;
@@ -3307,7 +3724,8 @@ text-align: center;
 	text-align: left;
 	padding-left: 1px;
 	padding-right: 1px;
-	max-width: 180px;
+	max-width: 162px;
+	max-height: 21px;
 	margin-right: 0px;
 	border: solid 1px #eaeaea;
 }
@@ -3317,11 +3735,63 @@ text-align: center;
 	padding-left: 3px;
 	max-width: 120px;
 	min-width: 50px;
+	max-height: 21px;
 	padding-right: 0px;
 	margin-right: 0px;
-	margin-left: 0px;
+	margin-left: 2px;
 	border: solid 1px #eaeaea;
 }
+
+// Buttons for equipment movers.
+
+.gear-mover-plus-minus-enclosure {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	
+}
+
+.gear-mover-plus-minus-button {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 22px;
+	width: 10px;
+	align-items: center;
+	padding: 0px;
+	margin-right: 2px;
+}
+
+.gear-mover-plus-minus-button button.buttonPlus,
+.gear-mover-plus-minus-button button.buttonMinus {
+	background-color: white;
+	border: solid 1px lightgray;
+	color: lightskyblue;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	display: inline-block;
+	font-size: 8px;
+	margin: 0px 0px;
+	line-height: 1.25ch;
+	border-radius: 0px;
+	max-width: 10px;
+}
+
+.gear-mover-plus-minus-button button.buttonPlus span,
+.gear-mover-plus-minus-button button.buttonMinus span {
+	display: inline-block;
+	transform: rotate(-90deg);
+	text-align: center;
+}
+
+.gear-mover-plus-minus-button button.buttonPlus:hover,
+.gear-mover-plus-minus-button button.buttonMinus:hover {
+	background-color: silver;
+	transition: 0.05s;
+	color: white;
+} 
 
 /* ----------------------------------------------------------- */
 /* Item: Attacks and Maneuvers or treasures text box slideshow */
@@ -3348,8 +3818,8 @@ text-align: center;
 
 .item-tab-gear-slide-container .button-left-arrow {
 	  position: absolute;
-	  top: 4%;
-	  left: 87%;
+	  top: 4.5%;
+	  left: 88%;
 	  transform: translate(-50%, -50%);
 	  color: gray;
 	  background-color: lightgray;
@@ -3363,8 +3833,8 @@ text-align: center;
 
 .item-tab-gear-slide-container .button-right-arrow {
 	position: absolute;
-	  top: 4%;
-	  left: 92%;
+	  top: 4.5%;
+	  left: 92.5%;
 	  transform: translate(-50%, -50%);
 	  color: gray;
 	  background-color: lightgray;
@@ -3387,11 +3857,19 @@ text-align: center;
 	width: 406px;
 	height: 375px;
 	padding: 0px;
-	background-color: lightcyan;
 	margin-left: 0px;
 	margin-bottom: 0px;
+	background-color: lightcyan;
 	border: solid 2px lightgray;
 	border-radius: 3px;
+}
+
+.item-tab-gear-slide-flex-container-martial-maneuvers-block {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	max-height: 280px;
+	min-height: 270px;
 }
 
 .item-tab-gear-slide-flex-container-martial-maneuvers input[type=text] {
@@ -3407,7 +3885,7 @@ text-align: center;
 }
 
 .item-tab-gear-slide-flex-container-martial-maneuvers input[type=text]:nth-child(1) {
-	width: 105px;
+	width: 135px;
 	border: 1px solid lightgray;
 	margin: 0px;
 	text-align: left;
@@ -3434,7 +3912,7 @@ text-align: center;
 }
 
 .item-tab-gear-slide-flex-container-martial-maneuvers textarea {
-	width: 165px;
+	width: 135px;
 	border: 1px solid lightgray;
 	height: 36px;
 	padding: 1px;
@@ -3469,7 +3947,7 @@ text-align: center;
 }
 
 .item-tab-gear-slide-flex-container-martial-maneuvers h1:nth-child(1) {
-	width: 108px;
+	width: 138px;
 }
 
 .item-tab-gear-slide-flex-container-martial-maneuvers h1:nth-child(5) {
@@ -3487,7 +3965,7 @@ text-align: center;
 	height: 19px;
 	padding: 0px;
 	margin-left: 0px;
-	padding-top: 4px;
+	padding-top: 5px;
 	padding-left: 4px;
 	margin-bottom: 0px;
 	background-color: lightcyan;
@@ -3527,15 +4005,16 @@ text-align: center;
 	padding-top: 0px;
 	padding-left: 4px;
 	margin-top: 0px;
-	margin-bottom: 10px;
+	margin-bottom: 0px;
 }
+
 
 .subitem-tab-gear-slide-flex-container-martial-name-and-points {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	min-height: 42px;
-	max-width: 104px;
+	max-width: 134px;
 	padding: 0px 0px;
 }
 
@@ -3546,10 +4025,16 @@ text-align: center;
 }
 
 .subitem-tab-gear-slide-flex-container-martial-name-and-points-row h1 {
-	padding-right: 3px;
+	padding-right: 0px;
 	padding-left: 30px;
 	padding-top: 4px;
 }
+
+.subitem-tab-gear-slide-flex-container-martial-name-and-points-row input[type=number] {
+	max-width: 42px;
+}
+
+/* Basic Attack */
 
 .subitem-tab-gear-slide-flex-container-standard-attack {
 	display: flex;
@@ -3557,28 +4042,75 @@ text-align: center;
 	justify-content: left;
 	margin-left: 3px;
 	margin-right: 3px;
+	margin-top: 13px;
+	align-items: center;
 }
 
 .subitem-tab-gear-slide-flex-container-standard-attack h1 {
-	max-width: 100px;
+	max-width: 90px;
 	margin-right: 5px;
 	margin-top: 2px;
 }
 
-.subitem-tab-gear-slide-flex-container-standard-attack h2:nth-child(2),
+.subitem-tab-gear-slide-flex-container-standard-attack span {
+	min-width: 42px;
+	align-content: left;
+}
+
 .subitem-tab-gear-slide-flex-container-standard-attack h2:nth-child(3),
-.subitem-tab-gear-slide-flex-container-standard-attack h2:nth-child(4) {
-	width: 41px;
+.subitem-tab-gear-slide-flex-container-standard-attack h2:nth-child(4),
+.subitem-tab-gear-slide-flex-container-standard-attack h2:nth-child(5) {
+	width: 40px;
 	text-align: center;
 	padding-right: 0px;
 	margin-top: 2px;
 }
 
-.subitem-tab-gear-slide-flex-container-standard-attack h2:nth-child(5) {
-	max-width: 140px;
+.subitem-tab-gear-slide-flex-container-standard-attack h2:nth-child(6) {
+	max-width: 130px;
 	text-align: left;
 	margin-right: 6px;
 	margin-top: 2px;
+}
+
+.subitem-tab-gear-slide-flex-container-range-modifiers {
+	flex-direction: row;
+	display: flex;
+	justify-content: space-between;
+	width: 397px;
+	height: 30px;
+	padding: 0px;
+	margin-left: 0px;
+	padding-top: 0px;
+	padding-left: 5px;
+	margin-top: 13px;
+	margin-bottom: 0px;
+}
+
+.subitem-tab-gear-slide-range-modifier-container-first,
+.subitem-tab-gear-slide-range-modifier-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 30px;
+}
+
+.subitem-tab-gear-slide-range-modifier-container-first {
+	min-width: 83px;
+	align-items: flex-start;
+}
+
+.subitem-tab-gear-slide-range-modifier-container {
+	min-width: 50px;
+	align-items: center;
+}
+
+.subitem-tab-gear-slide-range-modifier-container h2:nth-child(1) {
+	font-weight: bold;
+}
+
+.subitem-tab-gear-slide-range-modifier-container-first h2 {
+	font-weight: bold;
 }
 
 /* Item: Hit Locations */
@@ -3847,7 +4379,7 @@ text-align: center;
 }
 
 .item-tab-gear-slide-treasure-text textarea {
-	width: 397px;
+	width: 398px;
 	height: 367px;
 	margin: 0px;
 	border: solid 2px lightgray;
@@ -3965,7 +4497,8 @@ text-align: center;
 .sheet-rolltemplate-custom-attack,
 .sheet-rolltemplate-custom-activate,
 .sheet-rolltemplate-custom-show {
-  margin-left: -37px;
+	margin-left: -37px;
+	color: #181818;
 }
 
 .withoutavatars .sheet-rolltemplate-custom,
@@ -3974,8 +4507,9 @@ text-align: center;
 .withoutavatars .sheet-rolltemplate-custom-attack,
 .withoutavatars .sheet-rolltemplate-custom-activate,
 .withoutavatars .sheet-rolltemplate-custom-show {
-	  margin-left: -7px;
-	}
+	margin-left: -7px;
+	color: #181818;
+}
 
 .sheet-rolltemplate-custom .sheet-container,
 .sheet-rolltemplate-custom-normal-attack .sheet-container,
@@ -4135,4 +4669,47 @@ text-align: center;
 	grid-column: span 2;
 	padding-right: 10px;
 	text-align: left;
+}
+
+// Dice roll face colors. Needed to prevent problems with dark mode.
+
+.sheet-rolltemplate-custom .inlinerollresult,
+.sheet-rolltemplate-custom-normal-attack .inlinerollresult,
+.sheet-rolltemplate-custom-power-attack .inlinerollresult,
+.sheet-rolltemplate-custom-attack .inlinerollresult,
+.sheet-rolltemplate-custom-activate .inlinerollresult,
+.sheet-rolltemplate-custom-show .inlinerollresult {
+	display: inline-block;
+	min-width: 1.5em;
+	text-align: center;
+	border: 2px solid palegoldenrod;
+	background: #fff990;
+}
+
+.sheet-rolltemplate-custom .sheet-template-wrapper .inlinerollresult,
+.sheet-rolltemplate-custom-normal-attack .sheet-template-wrapper .inlinerollresult,
+.sheet-rolltemplate-custom-power-attack .sheet-template-wrapper .inlinerollresult,
+.sheet-rolltemplate-custom-attack .sheet-template-wrapper .inlinerollresult,
+.sheet-rolltemplate-custom-activate .sheet-template-wrapper .inlinerollresult,
+.sheet-rolltemplate-custom-show .sheet-template-wrapper .inlinerollresult {
+	background-color: #fff990;
+	border: 2px solid palegoldenrod;
+}
+
+.sheet-rolltemplate-custom .sheet-template-wrapper .inlinerollresult.fullcrit,
+.sheet-rolltemplate-custom-normal-attack .sheet-template-wrapper .inlinerollresult.fullcrit,
+.sheet-rolltemplate-custom-power-attack .sheet-template-wrapper .inlinerollresult.fullcrit,
+.sheet-rolltemplate-custom-attack .sheet-template-wrapper .inlinerollresult.fullcrit,
+.sheet-rolltemplate-custom-activate .sheet-template-wrapper .inlinerollresult.fullcrit,
+.sheet-rolltemplate-custom-show .sheet-template-wrapper .inlinerollresult.fullcrit {
+	border: 2px solid #3FB315;
+}
+
+.sheet-rolltemplate-custom .sheet-template-wrapper .inlinerollresult.fullfail,
+.sheet-rolltemplate-custom-normal-attack .sheet-template-wrapper .inlinerollresult.fullfail,
+.sheet-rolltemplate-custom-power-attack .sheet-template-wrapper .inlinerollresult.fullfail,
+.sheet-rolltemplate-custom-attack .sheet-template-wrapper .inlinerollresult.fullfail,
+.sheet-rolltemplate-custom-activate .sheet-template-wrapper .inlinerollresult.fullfail,
+.sheet-rolltemplate-custom-show .sheet-template-wrapper .inlinerollresult.fullfail {
+	border: 2px solid #B31515;
 }
