@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /* eslint-disable no-loop-func */
 /* eslint-disable camelcase */
 /* eslint-disable max-len */
@@ -105,7 +106,7 @@ for (let i = 0; i < rollCombatImprovise; i += 1) {
     const baseViolence = dViolence;
 
     let diceDegats = baseDegats;
-    let diceViolence = baseDegats;
+    let diceViolence = baseViolence;
 
     let bDegats = [];
     const bViolence = [];
@@ -244,7 +245,12 @@ for (let i = 0; i < rollCombatImprovise; i += 1) {
     if (type === '&{template:combat} {{portee=^{portee-contact}}}') {
       let dForce = vForce;
 
-      if (hasArmure) { dForce += oForce * 3; }
+      if (hasArmure) {
+        if (oForce > 5) {
+          dForce += 5 * 3;
+          dForce += (oForce - 5);
+        } else dForce += oForce * 3;
+      }
 
       bDegats.push(dForce);
       exec.push(`{{vForce=${dForce}}}`);
@@ -268,9 +274,9 @@ for (let i = 0; i < rollCombatImprovise; i += 1) {
     let getStyle;
 
     if (type.includes('&{template:combat} {{portee=^{portee-contact}}}')) {
-      getStyle = getStyleContactMod(attrs, [], baseDegats, baseViolence, hasArmure, oCombat, false, false, false, false, false, false, false, false, false);
+      getStyle = getStyleContactMod(attrs, [], baseDegats, baseViolence, hasArmure, oCombat, false, false, false, false, false, false, false, false, false, false);
     } else {
-      getStyle = getStyleDistanceMod(attrs, baseDegats, baseViolence, 0, 0, hasArmure, oTir, false, false, false, false);
+      getStyle = getStyleDistanceMod(attrs, baseDegats, baseViolence, 0, 0, hasArmure, oTir, false, false, false, false, false);
     }
 
     exec = exec.concat(getStyle.exec);
@@ -282,7 +288,7 @@ for (let i = 0; i < rollCombatImprovise; i += 1) {
 
     // GESTION DES BONUS D'ARMURE
 
-    const armorBonus = getArmorBonus(attrs, armure, false, false, vDiscretion, oDiscretion, hasBonus, C1Nom, C2Nom, C3Nom, C4Nom, autresEffets);
+    const armorBonus = await getArmorBonus(attrs, armure, false, false, vDiscretion, oDiscretion, hasBonus, C1Nom, C2Nom, C3Nom, C4Nom, autresEffets);
 
     exec = exec.concat(armorBonus.exec);
     cRoll = cRoll.concat(armorBonus.cRoll);
@@ -298,7 +304,7 @@ for (let i = 0; i < rollCombatImprovise; i += 1) {
 
     autresEffets = autresEffets.concat(armorBonus.autresEffets);
 
-    const MALBonus = getMALBonus(attrs, armureL, false, false, vDiscretion, oDiscretion, hasBonus, C1Nom, C2Nom, C3Nom, C4Nom, autresEffets);
+    const MALBonus = await getMALBonus(attrs, armureL, false, false, vDiscretion, oDiscretion, hasBonus, C1Nom, C2Nom, C3Nom, C4Nom, autresEffets);
 
     exec = exec.concat(MALBonus.exec);
     cRoll = cRoll.concat(MALBonus.cRoll);
@@ -344,9 +350,16 @@ for (let i = 0; i < rollCombatImprovise; i += 1) {
 
     if (cBonus.length !== 0) { exec.push(`{{cBonus=${cBonus.join(' - ')}}}`); }
 
-    const jet = `{{jet=[[ {{[[{${cRoll.join('+')}, 0}kh1]]d6cs2cs4cs6cf1cf3cf5s%2}=0}]]}}`;
+    const pairOrImpair = 'cs2cs4cs6cf1cf3cf5s';
+
+    const malusRoll = 0;
+    const total = Math.max(cRoll.reduce((accumulateur, valeurCourante) => accumulateur + valeurCourante, 0) - malusRoll, 0);
+
+    const jet = `{{jet=[[ ${total}d6${pairOrImpair}]]}}`;
+    const baseJet = '{{basejet=[[0]]}}';
 
     exec.push(jet);
+    exec.push(baseJet);
     exec.push(`{{Exploit=[[${cRoll.join('+')}]]}}`);
     exec.push(`{{bonus=[[${bonus.join('+')}]]}}`);
 
@@ -405,10 +418,9 @@ for (let i = 0; i < rollCombatImprovise; i += 1) {
     // ROLL
     const finalRoll = await startRoll(exec.join(' '));
 
-    const tJet = finalRoll.results.jet.result;
+    const rJet = finalRoll.results.jet.dice;
 
     const tBonus = finalRoll.results.bonus.result;
-    const tExploit = finalRoll.results.Exploit.result;
 
     const rDegats = finalRoll.results.degats.dice;
     const rViolence = finalRoll.results.violence.dice;
@@ -424,25 +436,10 @@ for (let i = 0; i < rollCombatImprovise; i += 1) {
       isTenebricide,
     };
 
-    const computed = updateRoll(finalRoll, tDegats, rDegats, bDegats, tViolence, rViolence, bViolence, conditions);
+    const computed = updateRoll(finalRoll, rJet, tBonus, tDegats, rDegats, bDegats, tViolence, rViolence, bViolence, conditions);
 
-    const finalComputed = {
-      jet: tJet + tBonus,
-    };
+    finishRoll(finalRoll.rollId, computed);
 
-    Object.assign(finalComputed, computed);
-
-    finishRoll(finalRoll.rollId, finalComputed);
-
-    if (tJet !== 0 && tJet === tExploit) {
-      const exploitRoll = await startRoll(`${roll}@{jetGM} &{template:simple} {{Nom=@{name}}} {{special1=${i18n_exploit}}}${jet}`);
-      const tRExploit = exploitRoll.results.jet.result;
-
-      const exploitComputed = {
-        jet: tRExploit,
-      };
-
-      finishRoll(exploitRoll.rollId, exploitComputed);
-    }
+    await postRoll(computed, roll, jet, finalRoll, conditions);
   });
 }

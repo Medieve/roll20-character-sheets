@@ -1,3 +1,5 @@
+/* eslint-disable linebreak-style */
+/* eslint-disable no-trailing-spaces */
 /* eslint-disable default-case */
 /* eslint-disable camelcase */
 /* eslint-disable prefer-destructuring */
@@ -11,10 +13,10 @@ on('clicked:distanceRangerLongbow', async (info) => {
   let attributs = [
     'pilonnageRanger',
     'energiePJ',
-    'caracteristique1',
-    'caracteristique2',
-    'caracteristique3',
-    'caracteristique4',
+    'caracteristique1Longbow',
+    'caracteristique2Longbow',
+    'caracteristique3Longbow',
+    'caracteristique4Longbow',
     'discretion',
     ODValue.discretion,
     ODValue.tir,
@@ -68,6 +70,7 @@ on('clicked:distanceRangerLongbow', async (info) => {
     'canonLongRanger',
     'canonRaccourciRanger',
     'chambreDoubleRanger',
+    'cadencerangeractif',
     'interfaceGuidageRanger',
     'lunetteIntelligenteRanger',
     'chargeurExplosivesRanger',
@@ -137,6 +140,8 @@ on('clicked:distanceRangerLongbow', async (info) => {
   let isFureur = false;
   let isUltraviolence = false;
 
+  let isCadence = false;
+
   if (PG50_2 === 'on') {
     diceDegats = Number(attrs.rangerArmeDegatEvol.split('D')[0]);
     diceViolence = Number(attrs.rangerArmeViolenceEvol.split('D')[0]);
@@ -168,10 +173,10 @@ on('clicked:distanceRangerLongbow', async (info) => {
   const mod = +attrs.jetModifDes;
   const hasBonus = +attrs.bonusCarac;
 
-  const C1 = attrs.caracteristique1;
-  const C2 = attrs.caracteristique2;
-  const C3 = attrs.caracteristique3;
-  const C4 = attrs.caracteristique4;
+  const C1 = attrs.caracteristique1Longbow;
+  const C2 = attrs.caracteristique2Longbow;
+  const C3 = attrs.caracteristique3Longbow;
+  const C4 = attrs.caracteristique4Longbow;
 
   const attrsCarac = await getCarac(hasBonus, C1, C2, C3, C4);
 
@@ -454,12 +459,11 @@ on('clicked:distanceRangerLongbow', async (info) => {
   // FIN GESTION DES EFFETS
 
   // GESTION DES AMELIORATIONS
-  let rChambreDouble = 0;
-
   const aGrappe = attrs.chargeurGrappesRanger;
   const aCLong = attrs.canonLongRanger;
   const aCRaccourci = attrs.canonRaccourciRanger;
   const aChambreDouble = attrs.chambreDoubleRanger;
+  const eCadenceA = +attrs.cadencerangeractif;
   const aIGuidage = attrs.interfaceGuidageRanger;
   const aLIntelligente = attrs.lunetteIntelligenteRanger;
   const aExplosive = attrs.chargeurExplosivesRanger;
@@ -491,9 +495,10 @@ on('clicked:distanceRangerLongbow', async (info) => {
     exec.push(`{{canonRaccourciCondition=${i18n_canonRaccourciCondition}}}`);
   }
 
-  if (aChambreDouble !== '0') {
-    rChambreDouble = '?{Plusieurs cibles ?|Oui, 3|Non, 0}';
-  }
+  if (aChambreDouble !== '0' && eCadenceA === 1) {
+    isCadence = true;
+    exec.push(`{{vChambreDouble=2) ${i18n_inclus}}}`);
+  } else if (aChambreDouble !== '0' && eCadenceA === 0) { autresAmeliorations.push(i18n_chambreDouble); }
 
   if (aLIntelligente !== '0') {
     isConditionnelA = true;
@@ -544,8 +549,8 @@ on('clicked:distanceRangerLongbow', async (info) => {
   }
 
   if (aPLaser !== '0') {
-    exec.push('{{vMPLaser=+1}}');
-    bonus.push(1);
+    isConditionnelA = true;
+    exec.push(`{{pointeurLaserValue=[[3D6]]}} {{pointeurLaser=${i18n_pointeurLaser}}} {{pointeurLaserCondition=${i18n_pointeurLaserCondition}}}`);
   }
 
   if (aROmega !== '0') {
@@ -587,7 +592,7 @@ on('clicked:distanceRangerLongbow', async (info) => {
   }
   // FIN DE GESTION DES BONUS SPECIAUX
 
-  const MALBonus = getMALBonus(attrs, armureL, isELumiere, false, vDiscretion, oDiscretion, hasBonus, C1Nom, C2Nom, C3Nom, C4Nom, autresEffets);
+  const MALBonus = await getMALBonus(attrs, armureL, isELumiere, false, vDiscretion, oDiscretion, hasBonus, C1Nom, C2Nom, C3Nom, C4Nom, autresEffets);
 
   exec = exec.concat(MALBonus.exec);
   cRoll = cRoll.concat(MALBonus.cRoll);
@@ -629,7 +634,7 @@ on('clicked:distanceRangerLongbow', async (info) => {
 
       exec.push(`{{style=${i18n_style} ${i18n_couvert}}}`);
 
-      if (aIGuidage === 0) {
+      if (aIGuidage === '0') {
         exec.push(`{{vMStyleA=${modA}D}}`);
         cRoll.push(Number(modA));
       }
@@ -697,8 +702,11 @@ on('clicked:distanceRangerLongbow', async (info) => {
       break;
 
     case 'suppression':
-      exec.push(`{{style=${i18n_style} ${i18n_pilonnage}}}`);
+      exec.push(`{{style=${i18n_style} ${i18n_suppression}}}`);
+
       if (PG50_3 !== '1') {
+        cRoll.push(-2);
+
         const vSuppressionD = Math.floor(Number(attrs.styleSuppressionD) / 2);
         const vSuppressionV = Math.floor(Number(attrs.styleSuppressionV) / 2);
 
@@ -728,7 +736,17 @@ on('clicked:distanceRangerLongbow', async (info) => {
   bonus = bonus.concat(ODMALShaman);
   bonus = bonus.concat(ODMALWarrior);
 
-  exec.push(`{{jet=[[ {{[[{${cRoll.join('+')}-${rChambreDouble}, 0}kh1]]d6cs2cs4cs6cf1cf3cf5s%2}=0}]]}}`);
+  const pairOrImpair = 'cs2cs4cs6cf1cf3cf5s';
+
+  const malusRoll = isCadence === true ? 3 : 0;
+  const total = Math.max(cRoll.reduce((accumulateur, valeurCourante) => accumulateur + valeurCourante, 0) - malusRoll, 0);
+
+  const jet = `{{jet=[[ ${total}d6${pairOrImpair}]]}}`;
+  const baseJet = '{{basejet=[[0]]}}';
+
+  exec.push(jet);
+  exec.push(baseJet);
+
   exec.push(`{{Exploit=[[${cRoll.join('+')}]]}}`);
   exec.push(`{{bonus=[[${bonus.join('+')}]]}}`);
 
@@ -762,8 +780,6 @@ on('clicked:distanceRangerLongbow', async (info) => {
     isSurprise = true;
   }
 
-  if (rChambreDouble !== 0) { exec.push(`{{vChambreDouble=${rChambreDouble}}}`); }
-
   if (devaste || bourreau || equilibre) {
     const herauts = [];
 
@@ -784,10 +800,9 @@ on('clicked:distanceRangerLongbow', async (info) => {
   if (!pasEnergie) {
     finalRoll = await startRoll(exec.join(' '));
 
-    const tJet = finalRoll.results.jet.result;
+    const rJet = finalRoll.results.jet.dice;
 
     const tBonus = finalRoll.results.bonus.result;
-    const tExploit = finalRoll.results.Exploit.result;
 
     const rDegats = finalRoll.results.degats.dice;
     const rViolence = finalRoll.results.violence.dice;
@@ -804,25 +819,10 @@ on('clicked:distanceRangerLongbow', async (info) => {
       isSurprise,
     };
 
-    const computed = updateRoll(finalRoll, tDegats, rDegats, bonusDegats, tViolence, rViolence, bonusViolence, conditions);
+    const computed = updateRoll(finalRoll, rJet, tBonus, tDegats, rDegats, bonusDegats, tViolence, rViolence, bonusViolence, conditions);
 
-    const finalComputed = {
-      jet: tJet + tBonus,
-    };
-
-    Object.assign(finalComputed, computed);
-
-    finishRoll(finalRoll.rollId, finalComputed);
-
-    if (tJet !== 0 && tJet === tExploit) {
-      const exploitRoll = await startRoll(`${roll}@{jetGM} &{template:simple} {{Nom=@{name}}} {{special1=${i18n_exploit}}}{{jet=[[ {[[{${cRoll.join('+')}, 0}kh1]]d6cs2cs4cs6cf1cf3cf5s%2}=0]]}}`);
-      const tRExploit = exploitRoll.results.jet.result;
-      const exploitComputed = {
-        jet: tRExploit,
-      };
-
-      finishRoll(exploitRoll.rollId, exploitComputed);
-    }
+    finishRoll(finalRoll.rollId, computed);
+    await postRoll(computed, roll, jet, finalRoll, conditions);
 
     setAttrs({
       energiePJ: resultatEnergie,

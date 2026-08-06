@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /* eslint-disable default-case */
 /* eslint-disable camelcase */
 /* eslint-disable max-len */
@@ -126,7 +127,7 @@ on('clicked:distanceWizardBorealis', async (info) => {
     if (hasArmure) { OD += C4OD; }
   }
 
-  const MALBonus = getMALBonus(attrs, armureL, false, false, vDiscretion, oDiscretion, hasBonus, C1Nom, C2Nom, C3Nom, C4Nom, autresEffets);
+  const MALBonus = await getMALBonus(attrs, armureL, false, false, vDiscretion, oDiscretion, hasBonus, C1Nom, C2Nom, C3Nom, C4Nom, autresEffets);
 
   exec = exec.concat(MALBonus.exec);
   cRoll = cRoll.concat(MALBonus.cRoll);
@@ -244,7 +245,15 @@ on('clicked:distanceWizardBorealis', async (info) => {
   bonus = bonus.concat(ODMALWarrior);
   bonus = bonus.concat(ODMALShaman);
 
-  exec.push(`{{jet=[[ {[[{${cRoll.join('+')}, 0}kh1]]d6cs2cs4cs6cf1cf3cf5s%2}=0]]}}`);
+  const pairOrImpair = 'cs2cs4cs6cf1cf3cf5s';
+
+  const total = Math.max(cRoll.reduce((accumulateur, valeurCourante) => accumulateur + valeurCourante, 0), 0);
+
+  const jet = `{{jet=[[ ${total}d6${pairOrImpair}]]}}`;
+  const baseJet = '{{basejet=[[0]]}}';
+
+  exec.push(jet);
+  exec.push(baseJet);
   exec.push(`{{tBonus=[[${bonus.join('+')}+0]]}}`);
   exec.push(`{{Exploit=[[${cRoll.join('+')}]]}}`);
 
@@ -271,10 +280,9 @@ on('clicked:distanceWizardBorealis', async (info) => {
   // ROLL
   const finalRoll = await startRoll(exec.join(' '));
 
-  const tJet = finalRoll.results.jet.result;
+  const rJet = finalRoll.results.jet.dice;
 
   const tBonus = finalRoll.results.tBonus.result;
-  const tExploit = finalRoll.results.Exploit.result;
 
   const rDegats = finalRoll.results.degats.dice;
   const rViolence = finalRoll.results.violence.dice;
@@ -288,25 +296,10 @@ on('clicked:distanceWizardBorealis', async (info) => {
     equilibre,
   };
 
-  const computed = updateRoll(finalRoll, tDegats, rDegats, [], tViolence, rViolence, [], conditions);
+  const computed = updateRoll(finalRoll, rJet, tBonus, tDegats, rDegats, [], tViolence, rViolence, [], conditions);
 
-  const finalComputed = {
-    jet: tJet + tBonus,
-  };
-
-  Object.assign(finalComputed, computed);
-
-  finishRoll(finalRoll.rollId, finalComputed);
-
-  if (tJet !== 0 && tJet === tExploit) {
-    const exploitRoll = await startRoll(`${roll}@{jetGM} &{template:simple} {{Nom=@{name}}} {{special1=${i18n_exploit}}}{{jet=[[ {[[{${cRoll.join('+')}, 0}kh1]]d6cs2cs4cs6cf1cf3cf5s%2}=0]]}}`);
-    const tRExploit = exploitRoll.results.jet.result;
-    const exploitComputed = {
-      jet: tRExploit,
-    };
-
-    finishRoll(exploitRoll.rollId, exploitComputed);
-  }
+  finishRoll(finalRoll.rollId, computed);
+  await postRoll(computed, roll, jet, finalRoll, conditions);
 });
 
 on('clicked:distanceWizardOriflamme', async (info) => {
@@ -442,7 +435,7 @@ on('clicked:distanceWizardOriflamme', async (info) => {
     equilibre,
   };
 
-  const computed = updateRoll(finalRoll, tDegats, rDegats, [], tViolence, rViolence, [], conditions);
+  const computed = updateRoll(finalRoll, [], 0, tDegats, rDegats, [], tViolence, rViolence, [], conditions);
 
   finishRoll(finalRoll.rollId, computed);
 });
@@ -579,7 +572,7 @@ on('clicked:distanceMALWizardOriflamme', async (info) => {
     equilibre,
   };
 
-  const computed = updateRoll(finalRoll, tDegats, rDegats, [], tViolence, rViolence, [], conditions);
+  const computed = updateRoll(finalRoll, [], 0, tDegats, rDegats, [], tViolence, rViolence, [], conditions);
 
   finishRoll(finalRoll.rollId, computed);
 });
